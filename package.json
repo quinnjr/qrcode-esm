@@ -1,6 +1,6 @@
 {
   "name": "@quinnjr/qrcode-esm",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ESM TypeScript port of qrcode",
   "type": "module",
   "main": "./dist/qrcode.node.js",
@@ -9,9 +9,19 @@
   "types": "./dist/types/index.node.d.ts",
   "exports": {
     ".": {
-      "browser": "./dist/qrcode.browser.js",
-      "node": "./dist/qrcode.node.js",
-      "default": "./dist/qrcode.node.js"
+      "types": "./dist/types/index.node.d.ts",
+      "browser": {
+        "types": "./dist/types/index.browser.d.ts",
+        "default": "./dist/qrcode.browser.js"
+      },
+      "node": {
+        "types": "./dist/types/index.node.d.ts",
+        "default": "./dist/qrcode.node.js"
+      },
+      "default": {
+        "types": "./dist/types/index.node.d.ts",
+        "default": "./dist/qrcode.node.js"
+      }
     }
   },
   "files": [
