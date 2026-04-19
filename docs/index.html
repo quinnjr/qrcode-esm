@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>qrcode-esm - QR Code Generator for Node.js &amp; Browser</title>
+  <meta name="description" content="Pure ESM TypeScript QR code generator with zero runtime dependencies. Supports PNG, SVG, Canvas, and terminal output.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <a href="#hero" class="logo">qrcode-esm</a>
+      <button id="sidebar-close" class="sidebar-close" aria-label="Close navigation">&times;</button>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#getting-started">Getting Started</a></li>
+      <li><a href="#usage">Usage</a></li>
+      <li>
+        <a href="#api">API Reference</a>
+        <ul>
+          <li><a href="#api-create">create()</a></li>
+          <li><a href="#api-tostring">toString()</a></li>
+          <li><a href="#api-todataurl">toDataURL()</a></li>
+          <li><a href="#api-tobuffer">toBuffer()</a></li>
+          <li><a href="#api-tofile">toFile()</a></li>
+          <li><a href="#api-tocanvas">toCanvas()</a></li>
+        </ul>
+      </li>
+      <li><a href="#options">Options</a></li>
+      <li><a href="#error-correction">Error Correction</a></li>
+      <li><a href="#encoding-modes">Encoding Modes</a></li>
+      <li><a href="#segments">Segments</a></li>
+      <li><a href="#output-formats">Output Formats</a></li>
+      <li><a href="#types">TypeScript Types</a></li>
+      <li><a href="#playground">Playground</a></li>
+      <li><a href="#license">License</a></li>
+    </ul>
+    <div class="sidebar-footer">
+      <a href="https://github.com/quinnjr/qrcode-esm" class="github-link">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.npmjs.com/package/@quinnjr/qrcode-esm" class="npm-link">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor"><path d="M0 0v16h16V0H0zm13 13H8V5h-2v8H3V3h10v10z"/></svg>
+        npm
+      </a>
+    </div>
+  </nav>
+
+  <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Open navigation">
+    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+  </button>
+
+  <main id="content">
+    <section id="hero" class="hero">
+      <div class="hero-inner">
+        <h1>qrcode-esm</h1>
+        <p class="hero-tagline">QR code generator for Node.js and the browser.<br>Pure ESM. TypeScript. Zero dependencies.</p>
+        <div class="hero-actions">
+          <div class="install-box">
+            <code>npm install @quinnjr/qrcode-esm</code>
+            <button class="copy-btn" data-copy="npm install @quinnjr/qrcode-esm" aria-label="Copy install command">
+              <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            </button>
+          </div>
+          <div class="hero-buttons">
+            <a href="#getting-started" class="btn btn-primary">Get Started</a>
+            <a href="#api" class="btn btn-secondary">API Reference</a>
+          </div>
+        </div>
+        <div class="hero-features">
+          <div class="feature-badge">ESM Native</div>
+          <div class="feature-badge">TypeScript</div>
+          <div class="feature-badge">Zero Dependencies</div>
+          <div class="feature-badge">Node.js &amp; Browser</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="getting-started">
+      <h2>Getting Started</h2>
+      <h3>Installation</h3>
+      <p>Install with your preferred package manager:</p>
+      <div class="code-block">
+        <div class="code-header"><span>Shell</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-comment"># npm</span>
+npm install @quinnjr/qrcode-esm
+
+<span class="c-comment"># pnpm</span>
+pnpm add @quinnjr/qrcode-esm
+
+<span class="c-comment"># yarn</span>
+yarn add @quinnjr/qrcode-esm</code></pre>
+      </div>
+
+      <h3>Quick Start</h3>
+      <p>The library automatically provides the right exports for your environment. Node.js gets file/buffer support; browsers get canvas support.</p>
+      <div class="code-block">
+        <div class="code-header"><span>Node.js</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">import</span> { toString } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-keyword">const</span> qr = <span class="c-keyword">await</span> <span class="c-func">toString</span>(<span class="c-string">'https://example.com'</span>);
+console.<span class="c-func">log</span>(qr);</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span>Browser</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">import</span> { toCanvas } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-keyword">const</span> canvas = <span class="c-keyword">await</span> <span class="c-func">toCanvas</span>(<span class="c-string">'https://example.com'</span>);
+document.body.<span class="c-func">appendChild</span>(canvas);</code></pre>
+      </div>
+    </section>
+
+    <section id="usage">
+      <h2>Usage Examples</h2>
+
+      <h3>Node.js</h3>
+      <div class="code-block">
+        <div class="code-header"><span>TypeScript</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">import</span> { toString, toDataURL, toBuffer, toFile } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-comment">// Render to UTF-8 string (for terminals)</span>
+<span class="c-keyword">const</span> str = <span class="c-keyword">await</span> <span class="c-func">toString</span>(<span class="c-string">'https://example.com'</span>);
+console.<span class="c-func">log</span>(str);
+
+<span class="c-comment">// Render to PNG data URL</span>
+<span class="c-keyword">const</span> url = <span class="c-keyword">await</span> <span class="c-func">toDataURL</span>(<span class="c-string">'https://example.com'</span>);
+
+<span class="c-comment">// Render to PNG buffer</span>
+<span class="c-keyword">const</span> buf = <span class="c-keyword">await</span> <span class="c-func">toBuffer</span>(<span class="c-string">'https://example.com'</span>);
+
+<span class="c-comment">// Write to file (format inferred from extension)</span>
+<span class="c-keyword">await</span> <span class="c-func">toFile</span>(<span class="c-string">'qr.png'</span>, <span class="c-string">'https://example.com'</span>);
+<span class="c-keyword">await</span> <span class="c-func">toFile</span>(<span class="c-string">'qr.svg'</span>, <span class="c-string">'https://example.com'</span>);
+<span class="c-keyword">await</span> <span class="c-func">toFile</span>(<span class="c-string">'qr.txt'</span>, <span class="c-string">'https://example.com'</span>);</code></pre>
+      </div>
+
+      <h3>Browser</h3>
+      <div class="code-block">
+        <div class="code-header"><span>TypeScript</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">import</span> { toString, toCanvas, toDataURL } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-comment">// Render to SVG string (default in browser)</span>
+<span class="c-keyword">const</span> svg = <span class="c-keyword">await</span> <span class="c-func">toString</span>(<span class="c-string">'https://example.com'</span>);
+
+<span class="c-comment">// Render to a new canvas element</span>
+<span class="c-keyword">const</span> canvas = <span class="c-keyword">await</span> <span class="c-func">toCanvas</span>(<span class="c-string">'https://example.com'</span>);
+document.body.<span class="c-func">appendChild</span>(canvas);
+
+<span class="c-comment">// Render to an existing canvas element</span>
+<span class="c-keyword">const</span> el = document.<span class="c-func">getElementById</span>(<span class="c-string">'canvas'</span>) <span class="c-keyword">as</span> HTMLCanvasElement;
+<span class="c-keyword">await</span> <span class="c-func">toCanvas</span>(el, <span class="c-string">'https://example.com'</span>);
+
+<span class="c-comment">// Render to data URL via canvas</span>
+<span class="c-keyword">const</span> url = <span class="c-keyword">await</span> <span class="c-func">toDataURL</span>(<span class="c-string">'https://example.com'</span>);</code></pre>
+      </div>
+
+      <h3>With Options</h3>
+      <div class="code-block">
+        <div class="code-header"><span>TypeScript</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">import</span> { toString } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-keyword">const</span> qr = <span class="c-keyword">await</span> <span class="c-func">toString</span>(<span class="c-string">'https://example.com'</span>, {
+  errorCorrectionLevel: <span class="c-string">'H'</span>,
+  type: <span class="c-string">'svg'</span>,
+  margin: <span class="c-number">2</span>,
+  width: <span class="c-number">300</span>,
+  color: {
+    dark: <span class="c-string">'#1a1a2e'</span>,
+    light: <span class="c-string">'#ffffff'</span>,
+  },
+});</code></pre>
+      </div>
+    </section>
+
+    <section id="api">
+      <h2>API Reference</h2>
+      <p>All rendering functions accept a text string (or array of segments) and an optional <code>RendererOptions</code> object. All return Promises except <code>create()</code>.</p>
+
+      <article id="api-create" class="api-entry">
+        <h3><code>create(text, options?)</code></h3>
+        <div class="api-meta">
+          <span class="badge badge-node">Node</span>
+          <span class="badge badge-browser">Browser</span>
+        </div>
+        <p>Creates QR code data without rendering. Returns a <code>QRData</code> object containing the module matrix, version, error correction level, mask pattern, and segments. Useful when you need raw QR data for custom rendering.</p>
+        <div class="api-signature">
+          <h4>Parameters</h4>
+          <table>
+            <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>text</code></td><td><code>QRInput</code></td><td>Text string or array of segments to encode</td></tr>
+              <tr><td><code>options</code></td><td><code>QRCodeOptions</code></td><td>Optional QR generation options</td></tr>
+            </tbody>
+          </table>
+          <h4>Returns</h4>
+          <p><code>QRData</code> &mdash; Object with <code>modules</code>, <code>version</code>, <code>errorCorrectionLevel</code>, <code>maskPattern</code>, and <code>segments</code>.</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span>Example</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+          <pre><code><span class="c-keyword">import</span> { create } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-keyword">const</span> qr = <span class="c-func">create</span>(<span class="c-string">'Hello World'</span>, {
+  errorCorrectionLevel: <span class="c-string">'H'</span>,
+});
+
+console.<span class="c-func">log</span>(qr.version);              <span class="c-comment">// e.g. 2</span>
+console.<span class="c-func">log</span>(qr.modules.size);          <span class="c-comment">// e.g. 25 (21 + 4*version)</span>
+console.<span class="c-func">log</span>(qr.errorCorrectionLevel);  <span class="c-comment">// { bit: 2 }</span>
+console.<span class="c-func">log</span>(qr.maskPattern);           <span class="c-comment">// 0-7</span></code></pre>
+        </div>
+      </article>
+
+      <article id="api-tostring" class="api-entry">
+        <h3><code>toString(text, options?)</code></h3>
+        <div class="api-meta">
+          <span class="badge badge-node">Node</span>
+          <span class="badge badge-browser">Browser</span>
+        </div>
+        <p>Renders a QR code as a string. The output format depends on the <code>type</code> option and the environment.</p>
+        <table class="compact-table">
+          <thead><tr><th><code>type</code></th><th>Node default</th><th>Browser default</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code>'utf8'</code></td><td>Yes</td><td></td><td>UTF-8 block characters (&#9600;&#9604;&#9608;)</td></tr>
+            <tr><td><code>'terminal'</code></td><td></td><td></td><td>ANSI-colored terminal output</td></tr>
+            <tr><td><code>'svg'</code></td><td></td><td>Yes</td><td>SVG XML markup</td></tr>
+          </tbody>
+        </table>
+        <div class="api-signature">
+          <h4>Parameters</h4>
+          <table>
+            <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>text</code></td><td><code>QRInput</code></td><td>Text string or array of segments to encode</td></tr>
+              <tr><td><code>options</code></td><td><code>RendererOptions</code></td><td>Optional rendering options</td></tr>
+            </tbody>
+          </table>
+          <h4>Returns</h4>
+          <p><code>Promise&lt;string&gt;</code></p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span>Example</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+          <pre><code><span class="c-comment">// SVG output</span>
+<span class="c-keyword">const</span> svg = <span class="c-keyword">await</span> <span class="c-func">toString</span>(<span class="c-string">'https://example.com'</span>, { type: <span class="c-string">'svg'</span> });
+
+<span class="c-comment">// Terminal output (compact)</span>
+<span class="c-keyword">const</span> term = <span class="c-keyword">await</span> <span class="c-func">toString</span>(<span class="c-string">'https://example.com'</span>, {
+  type: <span class="c-string">'terminal'</span>,
+  small: <span class="c-keyword">true</span>,
+});</code></pre>
+        </div>
+      </article>
+
+      <article id="api-todataurl" class="api-entry">
+        <h3><code>toDataURL(text, options?)</code></h3>
+        <div class="api-meta">
+          <span class="badge badge-node">Node</span>
+          <span class="badge badge-browser">Browser</span>
+        </div>
+        <p>Renders a QR code as a data URL string.</p>
+        <ul>
+          <li><strong>Node</strong>: Generates a PNG, SVG, or UTF-8 data URL depending on the <code>type</code> option.</li>
+          <li><strong>Browser</strong>: Renders to an offscreen canvas and calls <code>canvas.toDataURL()</code>.</li>
+        </ul>
+        <div class="api-signature">
+          <h4>Parameters</h4>
+          <table>
+            <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>text</code></td><td><code>QRInput</code></td><td>Text string or array of segments to encode</td></tr>
+              <tr><td><code>options</code></td><td><code>RendererOptions</code></td><td>Optional rendering options</td></tr>
+            </tbody>
+          </table>
+          <h4>Returns</h4>
+          <p><code>Promise&lt;string&gt;</code> &mdash; Data URL (e.g. <code>data:image/png;base64,...</code>)</p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span>Example</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+          <pre><code><span class="c-keyword">const</span> url = <span class="c-keyword">await</span> <span class="c-func">toDataURL</span>(<span class="c-string">'https://example.com'</span>, {
+  width: <span class="c-number">200</span>,
+  margin: <span class="c-number">2</span>,
+  color: {
+    dark: <span class="c-string">'#000000'</span>,
+    light: <span class="c-string">'#ffffff'</span>,
+  },
+});
+
+<span class="c-comment">// Use as image source</span>
+<span class="c-keyword">const</span> img = document.<span class="c-func">createElement</span>(<span class="c-string">'img'</span>);
+img.src = url;</code></pre>
+        </div>
+      </article>
+
+      <article id="api-tobuffer" class="api-entry">
+        <h3><code>toBuffer(text, options?)</code></h3>
+        <div class="api-meta">
+          <span class="badge badge-node">Node</span>
+        </div>
+        <p>Renders a QR code to a Node.js <code>Buffer</code>. The output format depends on the <code>type</code> option: PNG (default), SVG, or UTF-8.</p>
+        <div class="api-signature">
+          <h4>Parameters</h4>
+          <table>
+            <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>text</code></td><td><code>QRInput</code></td><td>Text string or array of segments to encode</td></tr>
+              <tr><td><code>options</code></td><td><code>RendererOptions</code></td><td>Optional rendering options</td></tr>
+            </tbody>
+          </table>
+          <h4>Returns</h4>
+          <p><code>Promise&lt;Buffer&gt;</code></p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span>Example</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+          <pre><code><span class="c-keyword">import</span> { toBuffer } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-keyword">const</span> pngBuffer = <span class="c-keyword">await</span> <span class="c-func">toBuffer</span>(<span class="c-string">'https://example.com'</span>);
+console.<span class="c-func">log</span>(pngBuffer.length); <span class="c-comment">// bytes</span>
+
+<span class="c-comment">// SVG buffer</span>
+<span class="c-keyword">const</span> svgBuffer = <span class="c-keyword">await</span> <span class="c-func">toBuffer</span>(<span class="c-string">'https://example.com'</span>, {
+  type: <span class="c-string">'svg'</span>,
+});</code></pre>
+        </div>
+      </article>
+
+      <article id="api-tofile" class="api-entry">
+        <h3><code>toFile(path, text, options?)</code></h3>
+        <div class="api-meta">
+          <span class="badge badge-node">Node</span>
+        </div>
+        <p>Writes a QR code to a file. The format is automatically inferred from the file extension unless <code>type</code> is explicitly set.</p>
+        <table class="compact-table">
+          <thead><tr><th>Extension</th><th>Format</th></tr></thead>
+          <tbody>
+            <tr><td><code>.png</code></td><td>PNG image</td></tr>
+            <tr><td><code>.svg</code></td><td>SVG markup</td></tr>
+            <tr><td><code>.txt</code></td><td>UTF-8 text</td></tr>
+          </tbody>
+        </table>
+        <div class="api-signature">
+          <h4>Parameters</h4>
+          <table>
+            <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>path</code></td><td><code>string</code></td><td>Output file path</td></tr>
+              <tr><td><code>text</code></td><td><code>QRInput</code></td><td>Text string or array of segments to encode</td></tr>
+              <tr><td><code>options</code></td><td><code>RendererOptions</code></td><td>Optional rendering options</td></tr>
+            </tbody>
+          </table>
+          <h4>Returns</h4>
+          <p><code>Promise&lt;void&gt;</code></p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span>Example</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+          <pre><code><span class="c-keyword">import</span> { toFile } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-comment">// PNG (inferred from extension)</span>
+<span class="c-keyword">await</span> <span class="c-func">toFile</span>(<span class="c-string">'./qrcode.png'</span>, <span class="c-string">'https://example.com'</span>);
+
+<span class="c-comment">// SVG with custom colors</span>
+<span class="c-keyword">await</span> <span class="c-func">toFile</span>(<span class="c-string">'./qrcode.svg'</span>, <span class="c-string">'https://example.com'</span>, {
+  color: {
+    dark: <span class="c-string">'#1a1a2e'</span>,
+    light: <span class="c-string">'#eaeaea'</span>,
+  },
+});</code></pre>
+        </div>
+      </article>
+
+      <article id="api-tocanvas" class="api-entry">
+        <h3><code>toCanvas(text, options?)</code></h3>
+        <h3><code>toCanvas(canvas, text, options?)</code></h3>
+        <div class="api-meta">
+          <span class="badge badge-browser">Browser</span>
+        </div>
+        <p>Renders a QR code onto an <code>HTMLCanvasElement</code>. If no canvas is provided, a new one is created and returned. If an existing canvas element is provided, the QR code is drawn onto it.</p>
+        <div class="api-signature">
+          <h4>Parameters</h4>
+          <table>
+            <thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>canvas</code></td><td><code>HTMLCanvasElement</code></td><td>(Optional) Existing canvas element to render onto</td></tr>
+              <tr><td><code>text</code></td><td><code>QRInput</code></td><td>Text string or array of segments to encode</td></tr>
+              <tr><td><code>options</code></td><td><code>RendererOptions</code></td><td>Optional rendering options</td></tr>
+            </tbody>
+          </table>
+          <h4>Returns</h4>
+          <p><code>Promise&lt;HTMLCanvasElement&gt;</code></p>
+        </div>
+        <div class="code-block">
+          <div class="code-header"><span>Example</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+          <pre><code><span class="c-keyword">import</span> { toCanvas } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-comment">// Create a new canvas</span>
+<span class="c-keyword">const</span> canvas = <span class="c-keyword">await</span> <span class="c-func">toCanvas</span>(<span class="c-string">'https://example.com'</span>, {
+  width: <span class="c-number">256</span>,
+  margin: <span class="c-number">2</span>,
+});
+document.body.<span class="c-func">appendChild</span>(canvas);
+
+<span class="c-comment">// Draw onto existing canvas</span>
+<span class="c-keyword">const</span> el = document.<span class="c-func">querySelector</span>(<span class="c-string">'canvas'</span>);
+<span class="c-keyword">await</span> <span class="c-func">toCanvas</span>(el, <span class="c-string">'https://example.com'</span>);</code></pre>
+        </div>
+      </article>
+    </section>
+
+    <section id="options">
+      <h2>Options</h2>
+      <p>All rendering functions accept an optional <code>RendererOptions</code> object that controls both QR code generation and rendering output.</p>
+
+      <h3>QR Code Options</h3>
+      <table>
+        <thead><tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>version</code></td>
+            <td><code>number</code></td>
+            <td>Auto</td>
+            <td>QR version (1&ndash;40). Determines the size of the QR code. Automatically selected if omitted based on the input data length and error correction level.</td>
+          </tr>
+          <tr>
+            <td><code>errorCorrectionLevel</code></td>
+            <td><code>string</code></td>
+            <td><code>'M'</code></td>
+            <td>Error correction level. Accepts <code>'L'</code>, <code>'M'</code>, <code>'Q'</code>, <code>'H'</code> or their full names <code>'low'</code>, <code>'medium'</code>, <code>'quartile'</code>, <code>'high'</code> (case-insensitive).</td>
+          </tr>
+          <tr>
+            <td><code>maskPattern</code></td>
+            <td><code>number</code></td>
+            <td>Auto</td>
+            <td>Mask pattern (0&ndash;7). Automatically selected for optimal readability if omitted.</td>
+          </tr>
+          <tr>
+            <td><code>toSJISFunc</code></td>
+            <td><code>function</code></td>
+            <td>&mdash;</td>
+            <td>Custom function for Shift JIS encoding of Kanji characters.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Renderer Options</h3>
+      <table>
+        <thead><tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>type</code></td>
+            <td><code>string</code></td>
+            <td>Varies</td>
+            <td>Output format: <code>'png'</code>, <code>'svg'</code>, <code>'utf8'</code>, <code>'terminal'</code>, or <code>'image/png'</code>. Default depends on the function and environment.</td>
+          </tr>
+          <tr>
+            <td><code>margin</code></td>
+            <td><code>number</code></td>
+            <td><code>4</code></td>
+            <td>Size of the quiet zone around the QR code, in modules. The QR spec recommends at least 4.</td>
+          </tr>
+          <tr>
+            <td><code>scale</code></td>
+            <td><code>number</code></td>
+            <td><code>4</code></td>
+            <td>Scale factor &mdash; the number of pixels per module.</td>
+          </tr>
+          <tr>
+            <td><code>width</code></td>
+            <td><code>number</code></td>
+            <td>&mdash;</td>
+            <td>Output width in pixels. Overrides <code>scale</code> when set. Must be &ge; 21.</td>
+          </tr>
+          <tr>
+            <td><code>color.dark</code></td>
+            <td><code>string</code></td>
+            <td><code>'#000000ff'</code></td>
+            <td>Color of the dark modules. Hex string (3, 4, 6, or 8 characters).</td>
+          </tr>
+          <tr>
+            <td><code>color.light</code></td>
+            <td><code>string</code></td>
+            <td><code>'#ffffffff'</code></td>
+            <td>Color of the light modules and background. Hex string (3, 4, 6, or 8 characters).</td>
+          </tr>
+          <tr>
+            <td><code>small</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Use compact rendering for terminal output (half-height characters).</td>
+          </tr>
+          <tr>
+            <td><code>inverse</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>Invert the dark and light colors.</td>
+          </tr>
+          <tr>
+            <td><code>rendererOpts</code></td>
+            <td><code>object</code></td>
+            <td><code>{}</code></td>
+            <td>Additional format-specific options (e.g. canvas <code>quality</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Color Format</h3>
+      <p>Color values support multiple hex formats:</p>
+      <table class="compact-table">
+        <thead><tr><th>Format</th><th>Example</th><th>Expansion</th></tr></thead>
+        <tbody>
+          <tr><td>3-character</td><td><code>#abc</code></td><td><code>#aabbcc</code> (fully opaque)</td></tr>
+          <tr><td>4-character</td><td><code>#abcd</code></td><td><code>#aabbccdd</code> (with alpha)</td></tr>
+          <tr><td>6-character</td><td><code>#rrggbb</code></td><td>Fully opaque</td></tr>
+          <tr><td>8-character</td><td><code>#rrggbbaa</code></td><td>With alpha channel</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="error-correction">
+      <h2>Error Correction</h2>
+      <p>QR codes use Reed-Solomon error correction to remain scannable even when partially damaged or obscured. Higher levels increase reliability at the cost of larger QR codes.</p>
+      <table>
+        <thead><tr><th>Level</th><th>Aliases</th><th>Recovery Capacity</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>'L'</code></td>
+            <td><code>'low'</code></td>
+            <td>~7%</td>
+            <td>Maximum data density. Use when QR code will be displayed cleanly (screens, print).</td>
+          </tr>
+          <tr>
+            <td><code>'M'</code></td>
+            <td><code>'medium'</code></td>
+            <td>~15%</td>
+            <td><strong>Default.</strong> Good balance of size and reliability for most use cases.</td>
+          </tr>
+          <tr>
+            <td><code>'Q'</code></td>
+            <td><code>'quartile'</code></td>
+            <td>~25%</td>
+            <td>When QR codes may be partially obscured (e.g. stickers, posters).</td>
+          </tr>
+          <tr>
+            <td><code>'H'</code></td>
+            <td><code>'high'</code></td>
+            <td>~30%</td>
+            <td>Maximum reliability. Required when embedding logos over the QR code.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="code-block">
+        <div class="code-header"><span>Example</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">await</span> <span class="c-func">toString</span>(<span class="c-string">'https://example.com'</span>, {
+  errorCorrectionLevel: <span class="c-string">'H'</span>,   <span class="c-comment">// maximum error correction</span>
+});
+
+<span class="c-comment">// Full name also accepted (case-insensitive)</span>
+<span class="c-keyword">await</span> <span class="c-func">toString</span>(<span class="c-string">'https://example.com'</span>, {
+  errorCorrectionLevel: <span class="c-string">'quartile'</span>,
+});</code></pre>
+      </div>
+    </section>
+
+    <section id="encoding-modes">
+      <h2>Encoding Modes</h2>
+      <p>QR codes support multiple encoding modes. The library automatically selects the optimal mode (or combination of modes) to minimize the size of the generated QR code. You can also specify modes explicitly via <a href="#segments">segments</a>.</p>
+      <table>
+        <thead><tr><th>Mode</th><th>Characters</th><th>Efficiency</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Numeric</strong></td>
+            <td><code>0&ndash;9</code></td>
+            <td>Most compact. 3 digits per 10 bits.</td>
+          </tr>
+          <tr>
+            <td><strong>Alphanumeric</strong></td>
+            <td><code>0&ndash;9</code>, <code>A&ndash;Z</code>, space, <code>$ % * + - . / :</code></td>
+            <td>2 characters per 11 bits.</td>
+          </tr>
+          <tr>
+            <td><strong>Byte</strong></td>
+            <td>Any UTF-8 byte</td>
+            <td>1 byte per 8 bits. Used for general text.</td>
+          </tr>
+          <tr>
+            <td><strong>Kanji</strong></td>
+            <td>Shift JIS kanji characters</td>
+            <td>1 character per 13 bits. Requires <code>toSJISFunc</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>When a string contains mixed character types, the library uses Dijkstra's algorithm to find the optimal combination of modes that produces the smallest QR code.</p>
+    </section>
+
+    <section id="segments">
+      <h2>Segments</h2>
+      <p>For precise control over encoding, pass an array of segments instead of a plain string. Each segment specifies the data and its encoding mode.</p>
+      <div class="code-block">
+        <div class="code-header"><span>Mixed-Mode Encoding</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">import</span> { toString } <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;
+
+<span class="c-keyword">const</span> qr = <span class="c-keyword">await</span> <span class="c-func">toString</span>([
+  { data: <span class="c-string">'1234567890'</span>, mode: <span class="c-string">'numeric'</span> },
+  { data: <span class="c-string">'ABCDEF'</span>, mode: <span class="c-string">'alphanumeric'</span> },
+  { data: <span class="c-string">'hello world'</span>, mode: <span class="c-string">'byte'</span> },
+]);</code></pre>
+      </div>
+      <p>Available mode values: <code>'numeric'</code>, <code>'alphanumeric'</code>, <code>'byte'</code>, <code>'kanji'</code>. You can also pass plain strings in the array, which will be auto-detected:</p>
+      <div class="code-block">
+        <div class="code-header"><span>Mixed Array</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">await</span> <span class="c-func">toString</span>([
+  <span class="c-string">'auto-detected string'</span>,
+  { data: <span class="c-string">'1234'</span>, mode: <span class="c-string">'numeric'</span> },
+]);</code></pre>
+      </div>
+    </section>
+
+    <section id="output-formats">
+      <h2>Output Formats</h2>
+      <p>The library provides multiple output formats optimized for different environments.</p>
+
+      <div class="format-grid">
+        <div class="format-card">
+          <h3>PNG</h3>
+          <div class="format-meta">
+            <span class="badge badge-node">Node</span>
+          </div>
+          <p>Raster image format. Generated using a built-in PNG encoder with no native dependencies.</p>
+          <p>Available via: <code>toFile()</code>, <code>toBuffer()</code>, <code>toDataURL()</code></p>
+        </div>
+
+        <div class="format-card">
+          <h3>SVG</h3>
+          <div class="format-meta">
+            <span class="badge badge-node">Node</span>
+            <span class="badge badge-browser">Browser</span>
+          </div>
+          <p>Scalable vector format. Clean XML output, ideal for web use. Default format for <code>toString()</code> in the browser.</p>
+          <p>Available via: <code>toString()</code>, <code>toFile()</code>, <code>toBuffer()</code>, <code>toDataURL()</code></p>
+        </div>
+
+        <div class="format-card">
+          <h3>UTF-8</h3>
+          <div class="format-meta">
+            <span class="badge badge-node">Node</span>
+            <span class="badge badge-browser">Browser</span>
+          </div>
+          <p>Text representation using Unicode block characters. Default format for <code>toString()</code> in Node.js.</p>
+          <p>Available via: <code>toString()</code>, <code>toFile()</code>, <code>toBuffer()</code></p>
+        </div>
+
+        <div class="format-card">
+          <h3>Terminal</h3>
+          <div class="format-meta">
+            <span class="badge badge-node">Node</span>
+          </div>
+          <p>ANSI-colored output for terminal display. Use <code>small: true</code> for compact half-block rendering.</p>
+          <p>Available via: <code>toString()</code></p>
+        </div>
+
+        <div class="format-card">
+          <h3>Canvas</h3>
+          <div class="format-meta">
+            <span class="badge badge-browser">Browser</span>
+          </div>
+          <p>Renders directly onto an HTML Canvas element. Can create a new canvas or draw onto an existing one.</p>
+          <p>Available via: <code>toCanvas()</code>, <code>toDataURL()</code></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="types">
+      <h2>TypeScript Types</h2>
+      <p>All public types are exported and available for import. The library provides separate type declarations for Node.js and browser environments.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span>Importing Types</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">import type</span> {
+  QRData,
+  QRInput,
+  QRCodeOptions,
+  RendererOptions,
+  Segment,
+  Mode,
+  ErrorCorrectionLevel,
+} <span class="c-keyword">from</span> <span class="c-string">'@quinnjr/qrcode-esm'</span>;</code></pre>
+      </div>
+
+      <h3>Key Types</h3>
+
+      <div class="code-block">
+        <div class="code-header"><span>QRData</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">interface</span> <span class="c-type">QRData</span> {
+  modules: BitMatrix;             <span class="c-comment">// 2D module grid</span>
+  version: <span class="c-type">number</span>;                <span class="c-comment">// 1-40</span>
+  errorCorrectionLevel: <span class="c-type">ErrorCorrectionLevel</span>;
+  maskPattern: <span class="c-type">number</span>;            <span class="c-comment">// 0-7</span>
+  segments: <span class="c-type">Segment</span>[];
+}</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span>QRInput</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">type</span> <span class="c-type">QRInput</span> = <span class="c-type">string</span> | (<span class="c-type">string</span> | {
+  data: <span class="c-type">string</span>;
+  mode?: <span class="c-type">Mode</span> | <span class="c-type">string</span>;
+})[];</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span>RendererOptions</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">interface</span> <span class="c-type">RendererOptions</span> <span class="c-keyword">extends</span> <span class="c-type">QRCodeOptions</span> {
+  margin?: <span class="c-type">number</span>;                <span class="c-comment">// quiet zone (default: 4)</span>
+  scale?: <span class="c-type">number</span>;                 <span class="c-comment">// pixels per module (default: 4)</span>
+  width?: <span class="c-type">number</span>;                 <span class="c-comment">// output width in px</span>
+  color?: {
+    dark?: <span class="c-type">string</span>;               <span class="c-comment">// hex color (default: '#000000ff')</span>
+    light?: <span class="c-type">string</span>;              <span class="c-comment">// hex color (default: '#ffffffff')</span>
+  };
+  type?: <span class="c-type">string</span>;                  <span class="c-comment">// output format</span>
+  small?: <span class="c-type">boolean</span>;                <span class="c-comment">// compact terminal output</span>
+  inverse?: <span class="c-type">boolean</span>;              <span class="c-comment">// invert colors</span>
+  rendererOpts?: <span class="c-type">Record</span>&lt;<span class="c-type">string</span>, <span class="c-type">unknown</span>&gt;;
+}</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span>QRCodeOptions</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">interface</span> <span class="c-type">QRCodeOptions</span> {
+  version?: <span class="c-type">number</span>;               <span class="c-comment">// 1-40</span>
+  errorCorrectionLevel?: <span class="c-type">ErrorCorrectionLevelInput</span>;
+  maskPattern?: <span class="c-type">number</span>;           <span class="c-comment">// 0-7</span>
+  toSJISFunc?: (kanji: <span class="c-type">string</span>) =&gt; <span class="c-type">number</span>;
+}</code></pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-header"><span>ErrorCorrectionLevelInput</span><button class="copy-btn" aria-label="Copy code"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg></button></div>
+        <pre><code><span class="c-keyword">type</span> <span class="c-type">ErrorCorrectionLevelInput</span> =
+  | <span class="c-type">ErrorCorrectionLevel</span>
+  | <span class="c-string">'L'</span> | <span class="c-string">'M'</span> | <span class="c-string">'Q'</span> | <span class="c-string">'H'</span>
+  | <span class="c-string">'low'</span> | <span class="c-string">'medium'</span> | <span class="c-string">'quartile'</span> | <span class="c-string">'high'</span>
+  | <span class="c-string">'l'</span> | <span class="c-string">'m'</span> | <span class="c-string">'q'</span> | <span class="c-string">'h'</span>;</code></pre>
+      </div>
+
+      <h3>QR Version Sizes</h3>
+      <p>The QR version determines the number of modules (pixels) in the code. The formula is: <code>size = 17 + 4 &times; version</code>.</p>
+      <table class="compact-table">
+        <thead><tr><th>Version</th><th>Modules</th><th>Version</th><th>Modules</th><th>Version</th><th>Modules</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>21 &times; 21</td><td>14</td><td>73 &times; 73</td><td>27</td><td>125 &times; 125</td></tr>
+          <tr><td>2</td><td>25 &times; 25</td><td>15</td><td>77 &times; 77</td><td>28</td><td>129 &times; 129</td></tr>
+          <tr><td>5</td><td>37 &times; 37</td><td>20</td><td>97 &times; 97</td><td>30</td><td>137 &times; 137</td></tr>
+          <tr><td>10</td><td>57 &times; 57</td><td>25</td><td>117 &times; 117</td><td>40</td><td>177 &times; 177</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="playground">
+      <h2>Playground</h2>
+      <p>Generate a QR code right in your browser. This demo uses the library's SVG output via <code>toString()</code>.</p>
+
+      <div class="playground-container">
+        <div class="playground-controls">
+          <div class="control-group">
+            <label for="pg-text">Text / URL</label>
+            <input type="text" id="pg-text" value="https://github.com/quinnjr/qrcode-esm" placeholder="Enter text or URL...">
+          </div>
+          <div class="control-row">
+            <div class="control-group">
+              <label for="pg-ecl">Error Correction</label>
+              <select id="pg-ecl">
+                <option value="L">Low (L)</option>
+                <option value="M" selected>Medium (M)</option>
+                <option value="Q">Quartile (Q)</option>
+                <option value="H">High (H)</option>
+              </select>
+            </div>
+            <div class="control-group">
+              <label for="pg-margin">Margin</label>
+              <input type="number" id="pg-margin" value="4" min="0" max="20">
+            </div>
+          </div>
+          <div class="control-row">
+            <div class="control-group">
+              <label for="pg-dark">Dark Color</label>
+              <div class="color-input">
+                <input type="color" id="pg-dark" value="#000000">
+                <span id="pg-dark-hex">#000000</span>
+              </div>
+            </div>
+            <div class="control-group">
+              <label for="pg-light">Light Color</label>
+              <div class="color-input">
+                <input type="color" id="pg-light" value="#ffffff">
+                <span id="pg-light-hex">#ffffff</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="playground-output">
+          <div id="pg-result" class="qr-output"></div>
+          <p class="playground-note">QR code generated client-side using the SVG renderer.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="license">
+      <h2>License</h2>
+      <p><a href="https://github.com/quinnjr/qrcode-esm/blob/main/LICENSE">MIT</a> &mdash; Originally created by <a href="https://github.com/soldair/node-qrcode">Ryan Day</a>. ESM TypeScript port by <a href="https://github.com/quinnjr">Joseph R. Quinn</a>.</p>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Joseph R. Quinn. Built with care, documented with purpose.</p>
+    </footer>
+  </main>
+
+  <script src="main.js"></script>
+</body>
+</html>
