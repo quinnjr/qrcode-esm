@@ -1,5 +1,5 @@
 {
-  "name": "qrcode-esm",
+  "name": "@quinnjr/qrcode-esm",
   "version": "1.0.0",
   "description": "ESM TypeScript port of qrcode",
   "type": "module",
@@ -40,8 +40,19 @@
     "generator",
     "zero-dependency"
   ],
-  "author": "",
+  "author": "Joseph R. Quinn",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/quinnjr/qrcode-esm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/quinnjr/qrcode-esm/issues"
+  },
+  "homepage": "https://github.com/quinnjr/qrcode-esm#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
