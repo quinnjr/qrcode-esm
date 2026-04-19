@@ -1,0 +1,41 @@
+# https://quinnjr.github.io/qrcode-esm/
+# Welcome crawlers and LLMs — everything here is public documentation.
+
+User-agent: *
+Allow: /
+
+# LLM / AI crawlers — explicitly welcomed
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: Cohere-AI
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+Sitemap: https://quinnjr.github.io/qrcode-esm/sitemap.xml

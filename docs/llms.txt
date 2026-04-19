@@ -1,0 +1,203 @@
+# qrcode-esm
+
+> QR code generator for Node.js and the browser. Pure ESM, written in TypeScript, zero runtime dependencies.
+
+A modernized ESM TypeScript port of [qrcode](https://github.com/soldair/node-qrcode) by Ryan Day.
+
+- Package: `@quinnjr/qrcode-esm`
+- Repository: https://github.com/quinnjr/qrcode-esm
+- npm: https://www.npmjs.com/package/@quinnjr/qrcode-esm
+- License: MIT
+- Author: Joseph R. Quinn
+
+## Install
+
+```sh
+npm install @quinnjr/qrcode-esm
+```
+
+## Key Features
+
+- Pure ESM (ECMAScript Modules) — no CommonJS
+- Written in TypeScript with full type declarations
+- Zero runtime dependencies
+- Separate optimized builds for Node.js and Browser
+- Built-in PNG encoder (no native modules required)
+- Supports QR versions 1–40
+- Four error correction levels: L (~7%), M (~15%), Q (~25%), H (~30%)
+- Automatic optimal encoding mode selection via Dijkstra's algorithm
+- Custom colors with hex format (3, 4, 6, or 8 character hex strings)
+
+## API
+
+### Node.js Exports
+
+- `create(text, options?)` — Returns `QRData` object (synchronous)
+- `toString(text, options?)` — Returns `Promise<string>` (UTF-8 default)
+- `toDataURL(text, options?)` — Returns `Promise<string>` (PNG data URL)
+- `toBuffer(text, options?)` — Returns `Promise<Buffer>` (PNG buffer)
+- `toFile(path, text, options?)` — Returns `Promise<void>` (format inferred from extension: .png, .svg, .txt)
+
+### Browser Exports
+
+- `create(text, options?)` — Returns `QRData` object (synchronous)
+- `toString(text, options?)` — Returns `Promise<string>` (SVG default)
+- `toDataURL(text, options?)` — Returns `Promise<string>` (canvas data URL)
+- `toCanvas(text, options?)` — Returns `Promise<HTMLCanvasElement>` (creates new canvas)
+- `toCanvas(canvas, text, options?)` — Returns `Promise<HTMLCanvasElement>` (draws on existing canvas)
+
+### Input Type
+
+`QRInput = string | (string | { data: string; mode?: Mode | string })[]`
+
+Text string, or array of segments for mixed-mode encoding. Segment modes: `'numeric'`, `'alphanumeric'`, `'byte'`, `'kanji'`.
+
+### Options (RendererOptions)
+
+```typescript
+interface RendererOptions {
+  // QR generation
+  version?: number;               // 1-40 (auto-detected if omitted)
+  errorCorrectionLevel?: 'L' | 'M' | 'Q' | 'H'; // default: 'M'
+  maskPattern?: number;           // 0-7 (auto-selected if omitted)
+  toSJISFunc?: (kanji: string) => number;
+
+  // Rendering
+  type?: string;                  // 'png' | 'svg' | 'utf8' | 'terminal' | 'image/png'
+  margin?: number;                // quiet zone in modules (default: 4)
+  scale?: number;                 // pixels per module (default: 4)
+  width?: number;                 // output width in pixels (overrides scale)
+  small?: boolean;                // compact terminal rendering (default: false)
+  inverse?: boolean;              // invert colors (default: false)
+  color?: {
+    dark?: string;                // hex color (default: '#000000ff')
+    light?: string;               // hex color (default: '#ffffffff')
+  };
+  rendererOpts?: Record<string, unknown>;
+}
+```
+
+### Key Types
+
+```typescript
+interface QRData {
+  modules: BitMatrix;
+  version: number;
+  errorCorrectionLevel: ErrorCorrectionLevel;
+  maskPattern: number;
+  segments: Segment[];
+}
+
+interface ErrorCorrectionLevel { bit: number; }
+
+type ErrorCorrectionLevelInput =
+  | ErrorCorrectionLevel
+  | 'L' | 'M' | 'Q' | 'H'
+  | 'low' | 'medium' | 'quartile' | 'high';
+
+interface Segment {
+  mode: Mode;
+  data: string | Uint8Array;
+  getLength(): number;
+  getBitsLength(): number;
+}
+```
+
+## Usage Examples
+
+### Node.js — Terminal output
+
+```typescript
+import { toString } from '@quinnjr/qrcode-esm';
+const qr = await toString('https://example.com');
+console.log(qr);
+```
+
+### Node.js — Save to PNG file
+
+```typescript
+import { toFile } from '@quinnjr/qrcode-esm';
+await toFile('qr.png', 'https://example.com', {
+  errorCorrectionLevel: 'H',
+  width: 300,
+  color: { dark: '#000000', light: '#ffffff' },
+});
+```
+
+### Node.js — PNG buffer
+
+```typescript
+import { toBuffer } from '@quinnjr/qrcode-esm';
+const buf = await toBuffer('https://example.com');
+```
+
+### Node.js — Data URL
+
+```typescript
+import { toDataURL } from '@quinnjr/qrcode-esm';
+const url = await toDataURL('https://example.com');
+```
+
+### Browser — Canvas
+
+```typescript
+import { toCanvas } from '@quinnjr/qrcode-esm';
+const canvas = await toCanvas('https://example.com');
+document.body.appendChild(canvas);
+```
+
+### Browser — SVG string
+
+```typescript
+import { toString } from '@quinnjr/qrcode-esm';
+const svg = await toString('https://example.com'); // SVG is default in browser
+```
+
+### Mixed-mode segments
+
+```typescript
+import { toString } from '@quinnjr/qrcode-esm';
+const qr = await toString([
+  { data: '1234567890', mode: 'numeric' },
+  { data: 'ABCDEF', mode: 'alphanumeric' },
+  { data: 'hello world', mode: 'byte' },
+]);
+```
+
+## Error Correction Levels
+
+| Level | Alias       | Recovery | Best for                                  |
+|-------|-------------|----------|-------------------------------------------|
+| L     | low         | ~7%      | Maximum density, clean display conditions |
+| M     | medium      | ~15%     | Default. Balanced size and reliability    |
+| Q     | quartile    | ~25%     | Partially obscured (stickers, posters)    |
+| H     | high        | ~30%     | Logo overlays, maximum reliability        |
+
+## Encoding Modes
+
+| Mode          | Characters                              | Efficiency              |
+|---------------|-----------------------------------------|-------------------------|
+| Numeric       | 0–9                                     | 3 digits per 10 bits    |
+| Alphanumeric  | 0–9, A–Z, space, $ % * + - . / :       | 2 chars per 11 bits     |
+| Byte          | Any UTF-8                               | 1 byte per 8 bits       |
+| Kanji         | Shift JIS characters                    | 1 char per 13 bits      |
+
+## Output Formats
+
+| Format   | Node.js | Browser | Function(s)                            |
+|----------|---------|---------|----------------------------------------|
+| PNG      | Yes     | —       | toFile, toBuffer, toDataURL            |
+| SVG      | Yes     | Yes     | toString, toFile, toBuffer, toDataURL  |
+| UTF-8    | Yes     | Yes     | toString, toFile, toBuffer             |
+| Terminal | Yes     | —       | toString (type: 'terminal')            |
+| Canvas   | —       | Yes     | toCanvas, toDataURL                    |
+
+## QR Version Sizes
+
+Size formula: `modules = 17 + 4 × version`
+
+Version 1: 21×21, Version 5: 37×37, Version 10: 57×57, Version 20: 97×97, Version 40: 177×177.
+
+## Documentation
+
+Full documentation: https://quinnjr.github.io/qrcode-esm/

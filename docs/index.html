@@ -3,12 +3,230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>qrcode-esm - QR Code Generator for Node.js &amp; Browser</title>
-  <meta name="description" content="Pure ESM TypeScript QR code generator with zero runtime dependencies. Supports PNG, SVG, Canvas, and terminal output.">
+
+  <!-- Primary Meta Tags -->
+  <title>qrcode-esm - QR Code Generator for Node.js &amp; Browser | TypeScript ESM</title>
+  <meta name="title" content="qrcode-esm - QR Code Generator for Node.js &amp; Browser | TypeScript ESM">
+  <meta name="description" content="Generate QR codes in Node.js and the browser with qrcode-esm. Pure ESM TypeScript library with zero runtime dependencies. Output to PNG, SVG, Canvas, data URL, or terminal. Supports error correction levels, custom colors, and mixed-mode encoding.">
+  <meta name="keywords" content="qrcode, qr code, qr code generator, javascript, typescript, esm, node.js, browser, svg, png, canvas, terminal, zero dependency, npm package, qr code api, qr code library">
+  <meta name="author" content="Joseph R. Quinn">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://quinnjr.github.io/qrcode-esm/">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://quinnjr.github.io/qrcode-esm/">
+  <meta property="og:title" content="qrcode-esm - QR Code Generator for Node.js &amp; Browser">
+  <meta property="og:description" content="Generate QR codes in Node.js and the browser. Pure ESM TypeScript, zero dependencies. Supports PNG, SVG, Canvas, terminal output, custom colors, and error correction.">
+  <meta property="og:site_name" content="qrcode-esm">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary">
+  <meta property="twitter:url" content="https://quinnjr.github.io/qrcode-esm/">
+  <meta property="twitter:title" content="qrcode-esm - QR Code Generator for Node.js &amp; Browser">
+  <meta property="twitter:description" content="Generate QR codes in Node.js and the browser. Pure ESM TypeScript, zero dependencies. Supports PNG, SVG, Canvas, terminal output, custom colors, and error correction.">
+
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="color-scheme" content="light">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="sitemap" type="application/xml" href="sitemap.xml">
+  <link rel="alternate" type="text/plain" href="llms.txt" title="LLM-friendly documentation">
+
   <link rel="stylesheet" href="style.css">
+
+  <!-- Structured Data: SoftwareSourceCode -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "qrcode-esm",
+    "alternateName": "@quinnjr/qrcode-esm",
+    "description": "QR code generator for Node.js and the browser. Pure ESM, written in TypeScript, zero runtime dependencies. Supports PNG, SVG, Canvas, data URL, and terminal output with configurable error correction, custom colors, and mixed-mode encoding.",
+    "url": "https://quinnjr.github.io/qrcode-esm/",
+    "codeRepository": "https://github.com/quinnjr/qrcode-esm",
+    "programmingLanguage": ["TypeScript", "JavaScript"],
+    "runtimePlatform": ["Node.js", "Browser"],
+    "license": "https://opensource.org/licenses/MIT",
+    "author": {
+      "@type": "Person",
+      "name": "Joseph R. Quinn",
+      "url": "https://github.com/quinnjr"
+    },
+    "operatingSystem": "Cross-platform",
+    "applicationCategory": "DeveloperApplication",
+    "keywords": "qrcode, qr code, typescript, esm, node.js, browser, svg, png, canvas, zero dependency"
+  }
+  </script>
+
+  <!-- Structured Data: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://quinnjr.github.io/qrcode-esm/" },
+      { "@type": "ListItem", "position": 2, "name": "Getting Started", "item": "https://quinnjr.github.io/qrcode-esm/#getting-started" },
+      { "@type": "ListItem", "position": 3, "name": "API Reference", "item": "https://quinnjr.github.io/qrcode-esm/#api" },
+      { "@type": "ListItem", "position": 4, "name": "Options", "item": "https://quinnjr.github.io/qrcode-esm/#options" },
+      { "@type": "ListItem", "position": 5, "name": "Playground", "item": "https://quinnjr.github.io/qrcode-esm/#playground" }
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: FAQPage (AEO - Answer Engine Optimization) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I generate a QR code in Node.js with TypeScript?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Install @quinnjr/qrcode-esm with npm install @quinnjr/qrcode-esm, then import the desired function. For a UTF-8 string: import { toString } from '@quinnjr/qrcode-esm'; const qr = await toString('https://example.com');. For PNG files: import { toFile } from '@quinnjr/qrcode-esm'; await toFile('qr.png', 'https://example.com');. For PNG buffers: import { toBuffer } from '@quinnjr/qrcode-esm'; const buf = await toBuffer('https://example.com');."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I generate a QR code in the browser with JavaScript?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Import qrcode-esm in your browser bundle: import { toCanvas } from '@quinnjr/qrcode-esm'; const canvas = await toCanvas('https://example.com'); document.body.appendChild(canvas);. You can also generate SVG strings with toString() or data URLs with toDataURL(). The library automatically provides browser-specific exports when bundled."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What QR code output formats does qrcode-esm support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "qrcode-esm supports five output formats: PNG (raster images via toFile, toBuffer, toDataURL in Node.js), SVG (scalable vector via toString, toFile, toBuffer, toDataURL), UTF-8 (Unicode block characters for terminals via toString), Terminal (ANSI-colored output via toString with type 'terminal'), and Canvas (HTML Canvas element via toCanvas in browsers). All formats support custom colors, margins, scaling, and error correction levels."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are QR code error correction levels and which should I use?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "QR codes support four error correction levels: L (Low, ~7% recovery) for maximum data density on clean displays, M (Medium, ~15% recovery, the default) for a good balance of size and reliability, Q (Quartile, ~25% recovery) for partially obscured codes like stickers or posters, and H (High, ~30% recovery) for maximum reliability or when embedding logos. Set via the errorCorrectionLevel option: await toString('text', { errorCorrectionLevel: 'H' })."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is qrcode-esm a pure ESM package with zero dependencies?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. qrcode-esm is a pure ECMAScript Module (ESM) package written entirely in TypeScript with zero runtime dependencies. It includes a built-in PNG encoder and does not require any native modules. It provides separate optimized builds for Node.js and browser environments with full TypeScript type declarations for both."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I customize QR code colors and size?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pass a RendererOptions object: await toString('text', { width: 300, margin: 2, scale: 4, color: { dark: '#1a1a2e', light: '#ffffff' } }). The width option sets output width in pixels (overrides scale), margin sets the quiet zone in modules (default 4), scale sets pixels per module (default 4), and color.dark/color.light accept hex strings in 3, 4, 6, or 8 character formats including alpha channels."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I use mixed-mode encoding (segments) in qrcode-esm?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Pass an array of segment objects instead of a plain string: await toString([{ data: '1234', mode: 'numeric' }, { data: 'HELLO', mode: 'alphanumeric' }, { data: 'world', mode: 'byte' }]). Available modes are 'numeric' (digits 0-9), 'alphanumeric' (0-9, A-Z, symbols), 'byte' (any UTF-8), and 'kanji' (Shift JIS). When a plain string is passed, the library automatically selects the optimal mode combination using Dijkstra's algorithm."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I save a QR code to a PNG or SVG file in Node.js?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use the toFile() function. The format is automatically inferred from the file extension: await toFile('qr.png', 'https://example.com') for PNG, await toFile('qr.svg', 'https://example.com') for SVG, or await toFile('qr.txt', 'https://example.com') for UTF-8 text. You can also explicitly set the format with the type option and customize colors, margins, and error correction."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Structured Data: HowTo (AEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Generate QR Codes with qrcode-esm in TypeScript",
+    "description": "Step-by-step guide to generating QR codes in Node.js or the browser using the qrcode-esm TypeScript library.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Install the package",
+        "text": "Run npm install @quinnjr/qrcode-esm (or pnpm add / yarn add) to install the library. It has zero runtime dependencies."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Import the functions you need",
+        "text": "In Node.js: import { toString, toFile, toBuffer, toDataURL } from '@quinnjr/qrcode-esm'. In the browser: import { toCanvas, toString, toDataURL } from '@quinnjr/qrcode-esm'. The package automatically provides the correct exports for each environment."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Generate the QR code",
+        "text": "Call the imported function with your text and optional settings: const qr = await toString('https://example.com', { errorCorrectionLevel: 'H', margin: 2, color: { dark: '#000000', light: '#ffffff' } }). All rendering functions return Promises."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "Use the output",
+        "text": "Use the returned value in your application. For Node.js, write to files with toFile(), get Buffer with toBuffer(), or get data URLs with toDataURL(). For browsers, append canvas elements to the DOM, embed SVG strings, or set image sources from data URLs."
+      }
+    ],
+    "tool": {
+      "@type": "SoftwareApplication",
+      "name": "qrcode-esm",
+      "url": "https://www.npmjs.com/package/@quinnjr/qrcode-esm",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Cross-platform"
+    }
+  }
+  </script>
+
+  <!-- Structured Data: WebPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "qrcode-esm Documentation",
+    "description": "Complete documentation and API reference for qrcode-esm, a pure ESM TypeScript QR code generator for Node.js and the browser with zero dependencies.",
+    "url": "https://quinnjr.github.io/qrcode-esm/",
+    "inLanguage": "en",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "qrcode-esm",
+      "url": "https://quinnjr.github.io/qrcode-esm/"
+    },
+    "about": {
+      "@type": "SoftwareSourceCode",
+      "name": "qrcode-esm"
+    },
+    "mainEntity": {
+      "@type": "TechArticle",
+      "headline": "qrcode-esm: QR Code Generator API Documentation",
+      "description": "Full API reference, usage examples, configuration options, and interactive playground for the qrcode-esm TypeScript library.",
+      "author": {
+        "@type": "Person",
+        "name": "Joseph R. Quinn"
+      },
+      "proficiencyLevel": "Beginner",
+      "programmingLanguage": "TypeScript",
+      "dependencies": "None (zero runtime dependencies)"
+    }
+  }
+  </script>
 </head>
-<body>
-  <nav id="sidebar">
+<body itemscope itemtype="https://schema.org/WebPage">
+  <nav id="sidebar" aria-label="Main navigation">
     <div class="sidebar-header">
       <a href="#hero" class="logo">qrcode-esm</a>
       <button id="sidebar-close" class="sidebar-close" aria-label="Close navigation">&times;</button>
@@ -52,7 +270,7 @@
     <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
   </button>
 
-  <main id="content">
+  <main id="content" role="main" itemprop="mainContentOfPage">
     <section id="hero" class="hero">
       <div class="hero-inner">
         <h1>qrcode-esm</h1>
