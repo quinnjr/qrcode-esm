@@ -1,0 +1,60 @@
+{
+  "name": "qrcode-esm",
+  "version": "1.0.0",
+  "description": "ESM TypeScript port of qrcode",
+  "type": "module",
+  "main": "./dist/qrcode.node.js",
+  "module": "./dist/qrcode.node.js",
+  "browser": "./dist/qrcode.browser.js",
+  "types": "./dist/types/index.node.d.ts",
+  "exports": {
+    ".": {
+      "browser": "./dist/qrcode.browser.js",
+      "node": "./dist/qrcode.node.js",
+      "default": "./dist/qrcode.node.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node build.mjs && tsc --emitDeclarationOnly",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "start": "pnpm build && node examples/demo.js"
+  },
+  "keywords": [
+    "qrcode",
+    "qr",
+    "qr-code",
+    "esm",
+    "typescript",
+    "svg",
+    "png",
+    "terminal",
+    "canvas",
+    "encode",
+    "generator",
+    "zero-dependency"
+  ],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "pnpm@10.33.0",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^25.6.0",
+    "@types/qrcode": "^1.5.6",
+    "@vitest/coverage-v8": "^4.1.4",
+    "esbuild": "^0.28.0",
+    "eslint": "^10.2.1",
+    "eslint-plugin-unicorn": "^64.0.0",
+    "pngjs": "^7.0.0",
+    "qrcode": "^1.5.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.58.2",
+    "vitest": "^4.1.4"
+  }
+}

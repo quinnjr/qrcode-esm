@@ -1,0 +1,29 @@
+# Source & config — consumers only need the built dist/
+src/
+examples/
+tsconfig.json
+build.mjs
+.gitignore
+
+# Tests / CI
+test/
+tests/
+__tests__/
+coverage/
+.nyc_output/
+.github/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Source maps (optional — keep if you want them published for debugging)
+# *.map
