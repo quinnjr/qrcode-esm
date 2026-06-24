@@ -4,7 +4,7 @@ import unicorn from 'eslint-plugin-unicorn';
 
 export default tseslint.config(
   {
-    ignores: ['dist/**', 'node_modules/**', 'examples/**', 'coverage/**', 'build.mjs', 'eslint.config.js', 'vitest.config.ts', 'test/**'],
+    ignores: ['dist/**', 'node_modules/**', 'examples/**', 'docs/**', 'coverage/**', 'build.mjs', 'eslint.config.js', 'vitest.config.ts', 'test/**'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
